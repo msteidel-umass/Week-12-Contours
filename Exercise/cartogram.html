@@ -74,8 +74,8 @@
 			// source 1: US State Census Data
 			let use_census_population = "data/Census_Population.csv"
 			// source 2: US Census State geojson's - choropleth and cartogram
-			let geojson_choropleth = "data/choropleth_states_income.geojson";
-			let geojson_cartogram = "data/cartogram_states_income.geojson";
+			let geojson_choropleth = "data/choropleth.geojson";
+			let geojson_cartogram = "data/cartogram.geojson";
 
 			Promise.all(
 				[
@@ -100,7 +100,7 @@
 					// Init a linear White-to-Green color scale based on State Income Data Range
 					let colorScale = d3.scaleLinear()
 						.domain(d3.extent(geoFeatures, function (d) {
-							return d["properties"]["Income"];
+							return d["properties"]["Mean_Income_Int"];
 						}))
 						.range(["white", "green"])
 
@@ -125,7 +125,7 @@
 						})
 						.attr("d", geo_generator)
 						.attr("fill", (d) => {
-							return colorScale(d["properties"]["Income"])    // Fill the state via color scale
+							return colorScale(d["properties"]["Mean_Income_Int"])    // Fill the state via color scale
 						})
 						// Mouse in/out animations & Tooltip popup
 						.on('mouseover', function (m, d) {
@@ -144,7 +144,7 @@
 							d3.select('#tooltip').style("opacity", 0.0);
 							d3.selectAll(".state_" + d["properties"]["STATE"])
 								.attr("fill", (d) => {
-									return colorScale(d["properties"]["Income"])    // Fill the state via color scale
+									return colorScale(d["properties"]["Mean_Income_Int"])    // Fill the state via color scale
 								})
 								.attr("opacity", 1)
 						})
